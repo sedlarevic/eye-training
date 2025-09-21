@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: frontend
+        working-directory: frontend/eye-training
     steps:
       - uses: actions/checkout@v4
       - name: Lint Frontend
@@ -51,7 +51,7 @@ jobs:
       - name: Lint Frontend Dockerfile
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: frontend/Dockerfile
+          dockerfile: frontend/eye-training/Dockerfile
   security:
     runs-on: ubuntu-latest
     steps:
@@ -86,7 +86,7 @@ jobs:
           node-version: 20
       - run: |
           echo "Starting frontend testing."
-          cd frontend
+          cd frontend/eye-training
           npm install
           npm run test
 
@@ -108,7 +108,7 @@ jobs:
           node-version: 20
       - run: |
           echo "Starting frontend build"
-          cd frontend
+          cd frontend/eye-training
           npm install
           npm run build
 
@@ -129,7 +129,7 @@ jobs:
         with:
           push: true
           tags: raldesedlar/eye-training-frontend:latest
-          context: ./frontend
+          context: ./frontend/eye-training
 
       - name: Build and push backend
         uses: docker/build-push-action@v5
