@@ -65,7 +65,7 @@ jobs:
 
       - name: Backend Security Check
         working-directory: backend/eye-training.API
-      - run: |
+        run: |
           echo "Starting backend security check."
           dotnet list package --vulnerable || true
 
