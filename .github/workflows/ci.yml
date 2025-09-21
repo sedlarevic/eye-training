@@ -34,11 +34,11 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.x      
-    - run: |
-        echo "Restoring backend dependencies..."
-        dotnet restore
-        echo "Starting lint check for backend."
-        dotnet format --verify-no-changes
+      - run: |
+          echo "Restoring backend dependencies..."
+          dotnet restore
+          echo "Starting lint check for backend."
+          dotnet format --verify-no-changes
 
   docker-lint:
     runs-on: ubuntu-latest
@@ -65,7 +65,7 @@ jobs:
 
       - name: Backend Security Check
         working-directory: backend/eye-training.API
-        run: |
+      - run: |
           echo "Starting backend security check."
           dotnet list package --vulnerable || true
 
