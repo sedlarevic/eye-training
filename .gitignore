@@ -83,3 +83,9 @@ backend/appsettings.Local.json
 *.swp
 # Environment Files
 *.env
+
+# SQL Server runtime files
+# SQL Server runtime fajlovi
+data/
+log/
+secrets/
