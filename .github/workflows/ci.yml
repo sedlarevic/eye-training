@@ -7,51 +7,37 @@ on:
     branches: [ "master" ]
 
 jobs:
-  lint-frontend:
+  lint:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend/eye-training
     steps:
       - uses: actions/checkout@v4
+
       - name: Lint Frontend
         uses: actions/setup-node@v4
         with:
           node-version: 20
       - run: |
+          cd frontend/eye-training
           npm install
-          echo "Starting lint check for frontend."
           npm run lint
 
-  lint-backend:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend/eye-training.API
-    steps:
-      - uses: actions/checkout@v4
       - name: Lint Backend
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 9.0.x      
+          dotnet-version: 9.0.x
       - run: |
-          echo "Restoring backend dependencies..."
+          cd backend/eye-training.API
           dotnet restore
-          echo "Starting lint check for backend."
           dotnet format --verify-no-changes
 
-  docker-lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Lint Backend Dockerfile
-        uses: hadolint/hadolint-action@v3.1.0
-        with:
-          dockerfile: backend/Dockerfile
-      - name: Lint Frontend Dockerfile
+      - name: Lint Dockerfiles
         uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: frontend/eye-training/Dockerfile
+      - uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: backend/Dockerfile
+
   security:
     runs-on: ubuntu-latest
     steps:
@@ -73,6 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -80,6 +67,7 @@ jobs:
       - run: |
           echo "Starting backend testing."
           dotnet test backend/EyeTraining.Tests/EyeTraining.Tests.csproj
+
       - name: Frontend testing
         uses: actions/setup-node@v4
         with:
@@ -94,6 +82,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Backend build
         uses: actions/setup-dotnet@v4
         with:
@@ -114,7 +103,7 @@ jobs:
 
   docker-build-push:
     runs-on: ubuntu-latest
-    needs: [build, test]
+    needs: [lint, test, security, build]
     steps:
       - uses: actions/checkout@v4
 
