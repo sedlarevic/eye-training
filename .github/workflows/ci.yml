@@ -88,7 +88,7 @@ jobs:
           echo "Starting frontend testing."
           cd frontend
           npm install
-          npm test -- --watchAll=false
+          npm run test
 
   build:
     runs-on: ubuntu-latest
@@ -110,7 +110,7 @@ jobs:
           echo "Starting frontend build"
           cd frontend
           npm install
-          npm run build
+          vite build
 
   docker-build-push:
     runs-on: ubuntu-latest
