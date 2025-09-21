@@ -110,7 +110,7 @@ jobs:
           echo "Starting frontend build"
           cd frontend
           npm install
-          vite build
+          npm run build
 
   docker-build-push:
     runs-on: ubuntu-latest

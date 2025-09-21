@@ -1,12 +1,12 @@
 FROM node:20 AS build
 WORKDIR /app
 
-COPY eye-training/package*.json ./
+COPY ./package*.json ./
 RUN npm install --legacy-peer-deps
 
 WORKDIR /app
 
-COPY eye-training ./
+COPY . ./
 
 RUN npm run build
 
@@ -17,3 +17,4 @@ RUN npm install -g serve@14.2.5
 COPY --from=build /app/dist ./dist
 EXPOSE 3000
 CMD ["serve", "-s", "dist", "-l", "3000"]
+
