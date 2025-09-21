@@ -30,8 +30,9 @@ jobs:
       - name: Lint Backend
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
-      - run: echo "Starting lint check for backend." && dotnet format --verify-no-changes
+          dotnet-version: 9.0.x      
+    - run: echo "Restoring backend dependencies..." && dotnet restore
+    - run: echo "Starting lint check for backend." && dotnet format --verify-no-changes
 
   docker-lint:
     runs-on: ubuntu-latest
@@ -65,7 +66,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 9.0.x
       - run: echo "Starting backend testing." && 	dotnet test backend/EyeTraining.Tests/EyeTraining.Tests.csproj
       - name: Frontend testing
         uses: actions/setup-node@v4
@@ -85,7 +86,7 @@ jobs:
       - name: Backend build
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 9.0.x
       - run: echo "Starting backend build" && dotnet build ./backend/eye-training.API --configuration Release
 
       - name: Frontend build
