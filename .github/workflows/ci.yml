@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: backend/TreningVida.API
+        working-directory: backend/eye-training.API
     steps:
       - uses: actions/checkout@v4
       - name: Lint Backend
@@ -55,7 +55,7 @@ jobs:
         run: echo "Starting frontend security audit." && npm audit --audit-level=moderate || true
 
       - name: Backend Security Check
-        working-directory: backend/TreningVida.API
+        working-directory: backend/eye-training.API
         run: echo "Starting backend security check." && dotnet list package --vulnerable || true
 
   test:
@@ -66,8 +66,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
-      - run: echo "Starting backend testing." && dotnet test ./backend
-
+      - run: echo "Starting backend testing." && 	dotnet test backend/EyeTraining.Tests/EyeTraining.Tests.csproj
       - name: Frontend testing
         uses: actions/setup-node@v4
         with:
@@ -87,7 +86,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
-      - run: echo "Starting backend build" && dotnet build ./backend/TreningVida.API --configuration Release
+      - run: echo "Starting backend build" && dotnet build ./backend/eye-training.API --configuration Release
 
       - name: Frontend build
         uses: actions/setup-node@v4

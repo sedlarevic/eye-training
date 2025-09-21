@@ -13,7 +13,7 @@ RUN npm run build
 FROM node:20-slim AS runtime
 WORKDIR /app
 
-RUN npm install -g serve
+RUN npm install -g serve@14.2.5
 COPY --from=build /app/dist ./dist
 EXPOSE 3000
 CMD ["serve", "-s", "dist", "-l", "3000"]
