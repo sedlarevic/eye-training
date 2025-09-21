@@ -42,9 +42,8 @@ frontend/*.sublime-workspace
 # .NET (backend)
 # ========================
 # Build outputs
-backend/bin/
-backend/obj/
-
+bin/
+obj/
 # User-specific files
 backend/*.user
 backend/*.rsuser
