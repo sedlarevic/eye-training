@@ -68,6 +68,12 @@ packages/
 backend/appsettings.Development.json
 backend/appsettings.Local.json
 
+# Neovim / Vim swap files
+*.swp
+*.swo
+*.un~
+.session
+
 # ========================
 # Optional
 # ========================
@@ -75,3 +81,5 @@ backend/appsettings.Local.json
 *.tmp
 *.temp
 *.swp
+# Environment Files
+*.env
