@@ -18,7 +18,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm install && echo "Starting lint check for frontend." && npm run lint
+      - run: |
+          npm install
+          echo "Starting lint check for frontend."
+          npm run lint
 
   lint-backend:
     runs-on: ubuntu-latest
@@ -31,8 +34,11 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.x      
-    - run: echo "Restoring backend dependencies..." && dotnet restore
-    - run: echo "Starting lint check for backend." && dotnet format --verify-no-changes
+    - run: |
+        echo "Restoring backend dependencies..."
+        dotnet restore
+        echo "Starting lint check for backend."
+        dotnet format --verify-no-changes
 
   docker-lint:
     runs-on: ubuntu-latest
@@ -53,11 +59,15 @@ jobs:
 
       - name: Frontend Security Audit
         working-directory: frontend
-        run: echo "Starting frontend security audit." && npm audit --audit-level=moderate || true
+        run: |
+          echo "Starting frontend security audit."
+          npm audit --audit-level=moderate || true
 
       - name: Backend Security Check
         working-directory: backend/eye-training.API
-        run: echo "Starting backend security check." && dotnet list package --vulnerable || true
+        run: |
+          echo "Starting backend security check."
+          dotnet list package --vulnerable || true
 
   test:
     runs-on: ubuntu-latest
@@ -67,7 +77,9 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.x
-      - run: echo "Starting backend testing." && 	dotnet test backend/EyeTraining.Tests/EyeTraining.Tests.csproj
+      - run: |
+          echo "Starting backend testing."
+          dotnet test backend/EyeTraining.Tests/EyeTraining.Tests.csproj
       - name: Frontend testing
         uses: actions/setup-node@v4
         with:
@@ -82,12 +94,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Backend build
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.x
-      - run: echo "Starting backend build" && dotnet build ./backend/eye-training.API --configuration Release
+      - run: |
+          echo "Starting backend build"
+          dotnet build ./backend/eye-training.API --configuration Release
 
       - name: Frontend build
         uses: actions/setup-node@v4
