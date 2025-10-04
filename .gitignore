@@ -85,6 +85,5 @@ backend/appsettings.Local.json
 
 # SQL Server runtime files
 # SQL Server runtime fajlovi
-data/
 log/
 secrets/
