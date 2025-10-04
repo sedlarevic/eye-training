@@ -1,14 +1,21 @@
 services:
 
   web:
-    build: raldesedlar/eye-training-frontend:latest
+    build:
+      context: ./frontend/eye-training
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
+    volumes:
+      - ./frontend/eye-training:/app
+      - /app/node_modules  
 
   webapi:
-    build: raldesedlar/eye-training-backend:latest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     environment:
@@ -22,13 +29,13 @@ services:
     environment:
       ACCEPT_EULA: 'Y'
       MSSQL_SA_PASSWORD: ${SA_PASSWORD}
-      MSSQL_DATA_DIR: /var/opt/mssql/data
-      MSSQL_PID: 'Developer' 
-      MSSQL_TCP_PORT: 1433 
+      MSSQL_PID: 'Developer'
+      MSSQL_TCP_PORT: 1433
     platform: linux/amd64
-    ports: 
+    ports:
       - "1433:1433"
     volumes:
-      - ./data:/var/opt/mssql/data
-      - ./log:/var/opt/mssql/log
-      - ./secrets:/var/opt/mssql/secrets
+      - mssql_data:/var/opt/mssql
+
+volumes:
+  mssql_data:

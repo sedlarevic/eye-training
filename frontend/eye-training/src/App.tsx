@@ -1,35 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface UserVision {
+  visionLeftEye: number;
+  visionRightEye: number;
+  cylinderLeftEye: number;
+  cylinderRightEye: number;
+  creationDate: string;
 }
 
-export default App
+interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  visions: UserVision[];
+}
+
+const App: React.FC = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  const fetchUsers = async () => {
+  try {
+    const res = await fetch("http://localhost:5225/api/users");
+    if (!res.ok) throw new Error("Failed to fetch users");
+
+    const data = await res.json();
+    console.log("Fetched users:", data);
+
+    setUsers(data);
+  } catch (err) {
+    console.error(err);
+  }
+};
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1>Users</h1>
+      <button onClick={fetchUsers}>Prikaži korisnike</button>
+      <ul>
+        {users.map((u) => (
+          <li key={u.id} style={{ marginTop: "10px" }}>
+            <strong>{u.firstName} {u.lastName}</strong> ({u.userName})
+            <ul>
+              {u.visions.map((v, idx) => (
+                <li key={idx}>
+                  L: {v.visionLeftEye} ({v.cylinderLeftEye}), R: {v.visionRightEye} ({v.cylinderRightEye}) - {new Date(v.creationDate).toLocaleDateString()}
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default App;
